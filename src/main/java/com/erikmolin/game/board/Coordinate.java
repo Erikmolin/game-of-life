@@ -1,4 +1,4 @@
-package com.erikmolin.Game;
+package com.erikmolin.game.board;
 
 public record Coordinate(Integer x, Integer y) {
 
