@@ -3,7 +3,6 @@ package com.erikmolin.game;
 import com.erikmolin.Agent;
 import com.erikmolin.game.board.BoardListener;
 import com.erikmolin.game.board.SquareBoard;
-import java.awt.event.ActionEvent;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,8 +39,7 @@ public class GameOfLife implements Game {
     return board;
   }
 
-  @Override
-  public void togglePaused(ActionEvent event) {
+  public void togglePaused() {
 
     if(this.timer != null) {
       this.timer.cancel();
@@ -59,6 +57,15 @@ public class GameOfLife implements Game {
           100
       );
     }
+  }
+
+  @Override
+  public List<GameControl> getGameControls() {
+    return List.of(
+        new GameControl(this::clearBoard, "Clear board"),
+        new GameControl(this::randomizeBoard, "Randomize board"),
+        new GameControl(this::togglePaused, "Play, pause")
+    );
   }
 
   public void registerBoardListener(BoardListener boardListener) {

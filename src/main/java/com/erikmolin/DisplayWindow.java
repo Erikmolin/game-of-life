@@ -20,8 +20,10 @@ import javax.swing.JPanel;
 
 public class DisplayWindow implements BoardListener, MouseListener {
 
-  JPanel boardPanel;
   JFrame frame;
+
+  JPanel boardPanel;
+  JPanel controlPanel;
 
   BiMap<Coordinate, JPanel> squares;
 
@@ -37,24 +39,18 @@ public class DisplayWindow implements BoardListener, MouseListener {
     frame.setTitle("Game of Life");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    setupControlPanel(game);
+    setupBoardPanel(game);
+
+    frame.pack();
+    frame.setVisible(true);
+  }
+
+  private void setupBoardPanel(GameOfLife game) {
     boardPanel = new JPanel();
     boardPanel.setLayout(new GridLayout(game.getCurrentBoard().getBoardSize().x(),
         game.getCurrentBoard().getBoardSize().y()));
 
-    JPanel controlPanel = new JPanel();
-    controlPanel.setSize(100, 100);
-    controlPanel.setLayout(new GridLayout(2, 1));
-
-    JButton randomizeBoard = new JButton("Randomize Board");
-    randomizeBoard.addActionListener(event -> game.randomizeBoard());
-    JButton clearBoard = new JButton("Clear Board");
-    clearBoard.addActionListener(event -> game.clearBoard());
-    JButton pause = new JButton("Pause / Play");
-    pause.addActionListener(game::togglePaused);
-
-    controlPanel.add(clearBoard);
-    controlPanel.add(randomizeBoard);
-    controlPanel.add(pause);
     game.getCurrentBoard().getAllSquares().forEach((square) -> {
       JPanel squarePanel = new JPanel();
       squarePanel.setBackground(square.state().equals(ALIVE) ? Color.black : Color.gray);
@@ -62,19 +58,32 @@ public class DisplayWindow implements BoardListener, MouseListener {
       squarePanel.addMouseListener(this);
       boardPanel.add(squarePanel);
     });
-
     frame.add(boardPanel);
+    
+  }
+
+  private void setupControlPanel(GameOfLife game) {
+    if (this.game.getGameControls().isEmpty()) {
+      return;
+    }
+    this.controlPanel = new JPanel();
+    controlPanel.setSize(100, 100);
+    controlPanel.setLayout(new GridLayout(game.getGameControls().size(), 1));
+
+    game.getGameControls().forEach((gameControl) -> {
+      JButton button = new JButton(gameControl.label());
+      button.addActionListener((event) -> {
+        gameControl.onClick().run();
+      });
+      controlPanel.add(button);
+    });
     frame.add(controlPanel);
-    frame.pack();
-    frame.setVisible(true);
 
   }
 
 
   public void onBoardUpdate(SquareBoard newBoard) {
-    newBoard.getAllSquares().forEach(this::setBackgroundFromState
-
-    );
+    newBoard.getAllSquares().forEach(this::setBackgroundFromState);
     boardPanel.validate();
     boardPanel.repaint();
   }
