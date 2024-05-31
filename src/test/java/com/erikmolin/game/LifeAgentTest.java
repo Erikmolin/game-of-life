@@ -1,7 +1,7 @@
 package com.erikmolin.game;
 
-import static com.erikmolin.game.GameOfLifeSquareState.ALIVE;
-import static com.erikmolin.game.GameOfLifeSquareState.DEAD;
+import static com.erikmolin.game.SquareState.ALIVE;
+import static com.erikmolin.game.SquareState.DEAD;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -68,7 +68,7 @@ class LifeAgentTest {
     );
   }
 
-  private void testAliveSquareUpdate(int aliveNeighbours, GameOfLifeSquareState expectedState) {
+  private void testAliveSquareUpdate(int aliveNeighbours, SquareState expectedState) {
     var aliveSquare = new Square(Coordinate.of(1, 1), ALIVE);
     doReturn(
         Stream.generate(() -> new Square(Coordinate.of(0, 0), ALIVE)).limit(aliveNeighbours)
@@ -77,7 +77,7 @@ class LifeAgentTest {
   }
 
 
-  private void testDeadSquareUpdate(int aliveNeighbours, GameOfLifeSquareState squareState) {
+  private void testDeadSquareUpdate(int aliveNeighbours, SquareState squareState) {
     var aliveSquare = new Square(Coordinate.of(1, 1), DEAD);
     doReturn(
         Stream.generate(() -> new Square(Coordinate.of(0, 0), ALIVE)).limit(aliveNeighbours)

@@ -1,7 +1,7 @@
 package com.erikmolin.game;
 
-import static com.erikmolin.game.GameOfLifeSquareState.ALIVE;
-import static com.erikmolin.game.GameOfLifeSquareState.DEAD;
+import static com.erikmolin.game.SquareState.ALIVE;
+import static com.erikmolin.game.SquareState.DEAD;
 
 import com.erikmolin.Agent;
 import com.erikmolin.game.board.Coordinate;

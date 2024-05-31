@@ -1,6 +1,6 @@
 package com.erikmolin.game;
 
-public enum GameOfLifeSquareState {
+public enum SquareState {
     ALIVE,
     DEAD,
 }

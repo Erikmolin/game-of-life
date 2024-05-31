@@ -1,9 +1,10 @@
 package com.erikmolin.game.board;
 
-import static com.erikmolin.game.GameOfLifeSquareState.DEAD;
+import static com.erikmolin.game.SquareState.ALIVE;
+import static com.erikmolin.game.SquareState.DEAD;
 import static java.lang.Math.min;
 
-import com.erikmolin.game.GameOfLifeSquareState;
+import com.erikmolin.game.SquareState;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
@@ -52,7 +53,7 @@ public class SquareBoard {
 
   public void randomizeBoard() {
     this.squares.forEach((row) -> row.replaceAll(
-        (square) -> square.withNewState(randomEnum(GameOfLifeSquareState.class))));
+        (square) -> square.withNewState(randomEnum(SquareState.class))));
 
   }
 
@@ -80,5 +81,11 @@ public class SquareBoard {
 
   public Square getSquare(Coordinate positionToGet) {
     return squares.get(positionToGet.x()).get(positionToGet.y());
+  }
+
+  public Square toggleSquareAt(Coordinate coordinate) {
+    Square newSquare = getSquare(coordinate).invertState();
+    setSquare(newSquare);
+    return newSquare;
   }
 }

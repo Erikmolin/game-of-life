@@ -1,14 +1,21 @@
 package com.erikmolin.game.board;
 
-import com.erikmolin.game.GameOfLifeSquareState;
+import static com.erikmolin.game.SquareState.ALIVE;
+import static com.erikmolin.game.SquareState.DEAD;
 
-public record Square(Coordinate location, GameOfLifeSquareState state) {
+import com.erikmolin.game.SquareState;
+
+public record Square(Coordinate location, SquareState state) {
 
 
-  public Square withNewState(GameOfLifeSquareState newState) {
+  public Square withNewState(SquareState newState) {
     return this.state.equals(newState)
         ? this
         : new Square(this.location, newState);
+  }
+
+  public Square invertState() {
+    return withNewState(this.state() == ALIVE ? DEAD : ALIVE);
   }
 
 }
