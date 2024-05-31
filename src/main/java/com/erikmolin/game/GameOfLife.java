@@ -1,6 +1,7 @@
 package com.erikmolin.game;
 
-import com.erikmolin.Agent;
+import com.erikmolin.game.agents.Agent;
+import com.erikmolin.game.agents.LifeAgent;
 import com.erikmolin.game.board.BoardListener;
 import com.erikmolin.game.board.SquareBoard;
 import java.util.HashSet;
@@ -11,12 +12,11 @@ import java.util.TimerTask;
 
 public class GameOfLife implements Game {
 
-  private Timer timer;
-  private SquareBoard board;
   private final List<Agent> agents;
-  private Agent currentAgent;
-
   private final Set<BoardListener> boardListeners = new HashSet<>();
+  private Timer turnTimer;
+  private SquareBoard board;
+  private Agent currentAgent;
 
   public GameOfLife(SquareBoard board) {
     this.board = board;
@@ -24,8 +24,8 @@ public class GameOfLife implements Game {
         new LifeAgent()
     );
     this.currentAgent = this.agents.get(0);
-
   }
+
   public void nextTurn() {
     this.board = currentAgent.makeMoves(board);
     int nextIndex = (agents.indexOf(currentAgent) + 1) % agents.size();
@@ -39,13 +39,12 @@ public class GameOfLife implements Game {
   }
 
   public void togglePaused() {
-
-    if(this.timer != null) {
-      this.timer.cancel();
-      this.timer = null;
+    if (this.turnTimer != null) {
+      this.turnTimer.cancel();
+      this.turnTimer = null;
     } else {
-      this.timer = new Timer();
-      timer.schedule(
+      this.turnTimer = new Timer();
+      turnTimer.schedule(
           new TimerTask() {
             @Override
             public void run() {
@@ -76,6 +75,7 @@ public class GameOfLife implements Game {
     this.board.randomizeBoard();
     notifyBoardListeners();
   }
+
   public void clearBoard() {
     this.board.clearBoard();
     notifyBoardListeners();

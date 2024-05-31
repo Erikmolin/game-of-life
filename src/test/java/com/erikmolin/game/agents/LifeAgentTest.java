@@ -1,7 +1,7 @@
-package com.erikmolin.game;
+package com.erikmolin.game.agents;
 
-import static com.erikmolin.game.SquareState.ALIVE;
-import static com.erikmolin.game.SquareState.DEAD;
+import static com.erikmolin.game.board.SquareState.ALIVE;
+import static com.erikmolin.game.board.SquareState.DEAD;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -11,6 +11,7 @@ import static org.mockito.Mockito.doReturn;
 import com.erikmolin.game.board.Coordinate;
 import com.erikmolin.game.board.Square;
 import com.erikmolin.game.board.SquareBoard;
+import com.erikmolin.game.board.SquareState;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
@@ -64,7 +65,7 @@ class LifeAgentTest {
     assertNotEquals(board, newBoard);
     assertTrue(
         originalSquares.stream()
-            .allMatch((square) -> board.getSquare(square.location()).state().equals(square.state()))
+            .allMatch((square) -> board.getSquareAt(square.location()).state().equals(square.state()))
     );
   }
 

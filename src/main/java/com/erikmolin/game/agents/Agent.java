@@ -1,4 +1,4 @@
-package com.erikmolin;
+package com.erikmolin.game.agents;
 
 import com.erikmolin.game.board.SquareBoard;
 

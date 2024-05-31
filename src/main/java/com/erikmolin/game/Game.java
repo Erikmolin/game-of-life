@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface Game {
 
-    SquareBoard getCurrentBoard();
+  SquareBoard getCurrentBoard();
 
-    List<GameControl> getGameControls();
+  List<GameControl> getGameControls();
 
-    void registerBoardListener(BoardListener boardListener);
+  void registerBoardListener(BoardListener boardListener);
 }

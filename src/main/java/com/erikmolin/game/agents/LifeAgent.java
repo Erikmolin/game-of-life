@@ -1,9 +1,8 @@
-package com.erikmolin.game;
+package com.erikmolin.game.agents;
 
-import static com.erikmolin.game.SquareState.ALIVE;
-import static com.erikmolin.game.SquareState.DEAD;
+import static com.erikmolin.game.board.SquareState.ALIVE;
+import static com.erikmolin.game.board.SquareState.DEAD;
 
-import com.erikmolin.Agent;
 import com.erikmolin.game.board.Coordinate;
 import com.erikmolin.game.board.Square;
 import com.erikmolin.game.board.SquareBoard;

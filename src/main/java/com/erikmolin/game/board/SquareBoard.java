@@ -1,10 +1,9 @@
 package com.erikmolin.game.board;
 
-import static com.erikmolin.game.SquareState.ALIVE;
-import static com.erikmolin.game.SquareState.DEAD;
+import static com.erikmolin.game.board.SquareState.DEAD;
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-import com.erikmolin.game.SquareState;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
@@ -18,7 +17,7 @@ public class SquareBoard {
 
   private final ArrayList<ArrayList<Square>> squares;
 
-  public SquareBoard(Integer sizeX, Integer sizeY) {
+  public SquareBoard(int sizeX, Integer sizeY) {
     this.boardSize = Coordinate.of(sizeX, sizeY);
     squares = initializeSquares(this.boardSize);
   }
@@ -32,8 +31,7 @@ public class SquareBoard {
     return boardSize;
   }
 
-  private ArrayList<ArrayList<Square>> initializeSquares(
-      Coordinate upperBound) {
+  private ArrayList<ArrayList<Square>> initializeSquares(Coordinate upperBound) {
     final ArrayList<ArrayList<Square>> squares = new ArrayList<>();
     for (int ix = 0; ix < upperBound.x(); ix++) {
       squares.add(new ArrayList<>());
@@ -52,23 +50,20 @@ public class SquareBoard {
   }
 
   public void randomizeBoard() {
-    this.squares.forEach((row) -> row.replaceAll(
-        (square) -> square.withNewState(randomEnum(SquareState.class))));
+    this.squares.forEach(
+        (row) -> row.replaceAll((square) -> square.withNewState(randomEnum(SquareState.class))));
 
   }
 
 
   public void setSquare(Square newSquare) {
-    this.squares.get(newSquare.location().x())
-        .set(newSquare.location().y(), newSquare);
+    this.squares.get(newSquare.location().x()).set(newSquare.location().y(), newSquare);
   }
 
-
   public Stream<Square> getSubBoard(Coordinate lowerBound, Coordinate upperBound) {
-    return squares.subList(lowerBound.x(), min(upperBound.x() + 1, this.boardSize.x()))
-        .stream().flatMap(
-            (y) -> y.subList(lowerBound.y(), min(upperBound.y() + 1, this.boardSize.y())).stream()
-        );
+    return squares.subList(max(0,lowerBound.x()), min(upperBound.x() + 1, this.boardSize.x())).stream()
+        .flatMap(
+            (y) -> y.subList(max(0,lowerBound.y()), min(upperBound.y() + 1, this.boardSize.y())).stream());
   }
 
   public Stream<Square> getAllSquares() {
@@ -79,12 +74,12 @@ public class SquareBoard {
     return new SquareBoard(this.boardSize.x(), this.boardSize.y());
   }
 
-  public Square getSquare(Coordinate positionToGet) {
+  public Square getSquareAt(Coordinate positionToGet) {
     return squares.get(positionToGet.x()).get(positionToGet.y());
   }
 
   public Square toggleSquareAt(Coordinate coordinate) {
-    Square newSquare = getSquare(coordinate).invertState();
+    Square newSquare = getSquareAt(coordinate).invertState();
     setSquare(newSquare);
     return newSquare;
   }

@@ -1,6 +1,6 @@
 package com.erikmolin;
 
-import static com.erikmolin.game.SquareState.ALIVE;
+import static com.erikmolin.game.board.SquareState.ALIVE;
 
 import com.erikmolin.game.Game;
 import com.erikmolin.game.board.BoardListener;
@@ -71,9 +71,7 @@ public class DisplayWindow implements BoardListener, MouseListener {
 
     game.getGameControls().forEach((gameControl) -> {
       JButton button = new JButton(gameControl.label());
-      button.addActionListener((event) -> {
-        gameControl.onClick().run();
-      });
+      button.addActionListener((event) -> gameControl.onClick().run());
       controlPanel.add(button);
     });
     frame.add(controlPanel);
@@ -119,7 +117,7 @@ public class DisplayWindow implements BoardListener, MouseListener {
   }
 
   private void setBackgroundFromState(Square square) {
-    JPanel currentSquare = squares.get(square.location());
-    currentSquare.setBackground(square.state().equals(ALIVE) ? Color.black : Color.gray);
+    JPanel squarePanel = squares.get(square.location());
+    squarePanel.setBackground(square.state().equals(ALIVE) ? Color.black : Color.gray);
   }
 }
