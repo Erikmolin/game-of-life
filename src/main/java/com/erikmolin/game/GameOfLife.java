@@ -21,7 +21,6 @@ public class GameOfLife implements Game {
   public GameOfLife(SquareBoard board) {
     this.board = board;
     this.agents = List.of(
-        new HumanAgent(),
         new LifeAgent()
     );
     this.currentAgent = this.agents.get(0);
@@ -64,10 +63,11 @@ public class GameOfLife implements Game {
     return List.of(
         new GameControl(this::clearBoard, "Clear board"),
         new GameControl(this::randomizeBoard, "Randomize board"),
-        new GameControl(this::togglePaused, "Play, pause")
+        new GameControl(this::togglePaused, "Play, Pause")
     );
   }
 
+  @Override
   public void registerBoardListener(BoardListener boardListener) {
     boardListeners.add(boardListener);
   }

@@ -2,7 +2,7 @@ package com.erikmolin;
 
 import static com.erikmolin.game.SquareState.ALIVE;
 
-import com.erikmolin.game.GameOfLife;
+import com.erikmolin.game.Game;
 import com.erikmolin.game.board.BoardListener;
 import com.erikmolin.game.board.Coordinate;
 import com.erikmolin.game.board.Square;
@@ -27,10 +27,10 @@ public class DisplayWindow implements BoardListener, MouseListener {
 
   BiMap<Coordinate, JPanel> squares;
 
-  GameOfLife game;
+  Game game;
   private boolean pressed;
 
-  public DisplayWindow(GameOfLife game) {
+  public DisplayWindow(Game game) {
     this.game = game;
     squares = HashBiMap.create(
         game.getCurrentBoard().getBoardSize().x() * game.getCurrentBoard().getBoardSize().y());
@@ -44,9 +44,10 @@ public class DisplayWindow implements BoardListener, MouseListener {
 
     frame.pack();
     frame.setVisible(true);
+    game.registerBoardListener(this);
   }
 
-  private void setupBoardPanel(GameOfLife game) {
+  private void setupBoardPanel(Game game) {
     boardPanel = new JPanel();
     boardPanel.setLayout(new GridLayout(game.getCurrentBoard().getBoardSize().x(),
         game.getCurrentBoard().getBoardSize().y()));
@@ -59,15 +60,13 @@ public class DisplayWindow implements BoardListener, MouseListener {
       boardPanel.add(squarePanel);
     });
     frame.add(boardPanel);
-    
   }
 
-  private void setupControlPanel(GameOfLife game) {
+  private void setupControlPanel(Game game) {
     if (this.game.getGameControls().isEmpty()) {
       return;
     }
     this.controlPanel = new JPanel();
-    controlPanel.setSize(100, 100);
     controlPanel.setLayout(new GridLayout(game.getGameControls().size(), 1));
 
     game.getGameControls().forEach((gameControl) -> {
@@ -82,9 +81,9 @@ public class DisplayWindow implements BoardListener, MouseListener {
   }
 
 
+  @Override
   public void onBoardUpdate(SquareBoard newBoard) {
     newBoard.getAllSquares().forEach(this::setBackgroundFromState);
-    boardPanel.validate();
     boardPanel.repaint();
   }
 
