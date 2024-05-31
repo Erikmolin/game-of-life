@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 class LifeAgentTest {
 
   LifeAgent sut = Mockito.spy();
-  SquareBoard testBoard = new SquareBoard(3, 3);
+  SquareBoard testBoard = new SquareBoard(4, 4);
 
   @Test
   void cornerHasThreeNeighbours() {

@@ -20,6 +20,7 @@ public class LifeAgent implements Agent {
             (square) -> applyRules(square, currentBoard))
         .forEach(newBoard::setSquare);
     return newBoard;
+
   }
 
   Square applyRules(Square square, SquareBoard board) {
@@ -37,17 +38,13 @@ public class LifeAgent implements Agent {
 
   Stream<Square> getNeighbours(SquareBoard board, Coordinate c) {
     Coordinate upperBoxBound = Coordinate.of(
-        Integer.min(c.x() + 1, board.getUpperBound().x()),
-        Integer.min(c.y() + 1, board.getUpperBound().y()));
+        Integer.min(c.x() + 1, board.getBoardSize().x()),
+        Integer.min(c.y() + 1, board.getBoardSize().y()));
     Coordinate lowerBoxBound = Coordinate.of(
         Integer.max(0, c.x() - 1),
         Integer.max(0, c.y() - 1));
 
-    return board.getAllSquares().filter(
-        (square) -> square.location().x() >= lowerBoxBound.x()
-            && square.location().x() <= upperBoxBound.x()
-            && square.location().y() <= upperBoxBound.y()
-            && square.location().y() >= lowerBoxBound.y()
-            && !square.location().equals(c));
+    return board.getSubBoard(lowerBoxBound,upperBoxBound).filter(
+        (square) ->  !square.location().equals(c));
   }
 }

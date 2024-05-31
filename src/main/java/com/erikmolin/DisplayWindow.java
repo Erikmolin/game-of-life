@@ -22,15 +22,15 @@ public class DisplayWindow implements BoardListener {
   HashMap<Coordinate, JPanel> squares;
 
   public DisplayWindow(GameOfLife game) {
-    squares = HashMap.newHashMap(game.getCurrentBoard().getUpperBound().x()*game.getCurrentBoard().getUpperBound().y());
+    squares = HashMap.newHashMap(game.getCurrentBoard().getBoardSize().x()*game.getCurrentBoard().getBoardSize().y());
         frame = new JFrame();
     frame.setLayout(new FlowLayout(FlowLayout.LEFT));
     frame.setTitle("Game of Life");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     boardPanel = new JPanel();
-    boardPanel.setLayout(new GridLayout(game.getCurrentBoard().getUpperBound().x(),
-        game.getCurrentBoard().getUpperBound().y()));
+    boardPanel.setLayout(new GridLayout(game.getCurrentBoard().getBoardSize().x(),
+        game.getCurrentBoard().getBoardSize().y()));
 
     JPanel controlPanel = new JPanel();
     controlPanel.setSize(100, 100);
